@@ -1,0 +1,40 @@
+.recipe-section {
+  padding: 20px 50px;
+}
+
+.recipe-section h2 {
+  margin-bottom: 20px;
+}
+
+/* 🔥 GRID */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* 🔥 CARD */
+.recipe-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.recipe-card:hover {
+  transform: translateY(-5px);
+}
+
+/* IMAGE */
+.recipe-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+/* TITLE */
+.recipe-card h3 {
+  padding: 10px;
+  text-align: center;
+}

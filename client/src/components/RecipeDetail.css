@@ -1,0 +1,91 @@
+.detail-container {
+  padding: 30px 50px;
+}
+
+/* Back button */
+.back-btn {
+  margin-bottom: 20px;
+  padding: 8px 15px;
+  border: none;
+  background: #ff5a3c;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* Card */
+.detail-card {
+  display: flex;
+  gap: 30px;
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+/* Image section */
+.image-section {
+  position: relative;
+}
+
+.image-section img {
+  width: 400px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+/* ❤️ Favorite */
+.favorite-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: white;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Content */
+.detail-content {
+  flex: 1;
+}
+
+/* ⭐ Rating */
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+/* Info row */
+.info {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.tabs button {
+  padding: 8px 15px;
+  border: none;
+  background: #eee;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.tabs .active {
+  background: #ff5a3c;
+  color: white;
+}
+
+/* List */
+ul {
+  padding-left: 20px;
+}
