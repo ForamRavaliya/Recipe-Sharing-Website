@@ -6,12 +6,11 @@ export default function RecipeList() {
   const navigate = useNavigate();
   const [recipes, setRecipes] = useState([]);
 
-  // 🔥 FETCH DATA FROM BACKEND
   useEffect(() => {
-    fetch("http://localhost:5000/api/recipes") // ✅ FIXED
+    fetch("http://localhost:5000/recipes")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data); // DEBUG
+        console.log(data);
         setRecipes(data);
       })
       .catch((err) => console.log(err));
@@ -22,21 +21,29 @@ export default function RecipeList() {
       <h2>Popular Recipes</h2>
 
       <div className="recipe-grid">
-        {recipes.map((item) => (
-          <div
-            key={item.id}
-            className="recipe-card"
-            onClick={() => navigate(`/recipe/${item.id}`)}
-          >
-            {/* 🔥 IMAGE FROM BACKEND */}
-            <img
-              src={`http://localhost:5000/uploads/${item.image}`}
-              alt={item.name}
-            />
+        {recipes.length === 0 ? (
+          <p>No recipes found</p>
+        ) : (
+          recipes.map((item) => (
+            <div
+              key={item.id}
+              className="recipe-card"
+              onClick={() => navigate(`/recipe/${item.id}`)}
+            >
+              <img
+                src={`http://localhost:5000/uploads/${item.image}`}
+                alt={item.name}
+              />
 
-            <h3>{item.name}</h3>
-          </div>
-        ))}
+              <h3>{item.name}</h3>
+
+              {/* ⭐ Rating */}
+              <p className="rating">
+                ⭐ {item.rating ? Number(item.rating).toFixed(1) : "No rating"}
+              </p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

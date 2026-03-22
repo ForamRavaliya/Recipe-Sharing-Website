@@ -1,17 +1,31 @@
-.hero {
-  position: relative;
-  margin: 20px 50px;
-  border-radius: 15px;
-  overflow: hidden;
+/* Outer container */
+.hero-container {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+  background: #f5f5f5;
 }
 
-/* 🔥 MAIN FIX */
+/* Main card */
+.hero-card {
+  position: relative;
+  width: 95%;
+  max-width: 1200px;
+  height: 350px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* Image */
 .hero-img {
   width: 100%;
-  height: 450px;      /* ✅ control height here */
-  object-fit: cover;  /* ✅ keeps image nicely cropped */
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(60%);
 }
 
+/* Content on image */
 .hero-content {
   position: absolute;
   top: 50%;
@@ -22,8 +36,8 @@
 }
 
 .hero-content h1 {
-  font-size: 40px;
-  margin-bottom: 15px;
+  font-size: 32px;
+  margin-bottom: 10px;
 }
 
 .hero-content p {
@@ -31,11 +45,17 @@
   margin-bottom: 20px;
 }
 
+/* Button */
 .hero-btn {
   padding: 10px 20px;
   border: none;
   background: #ff5a3c;
   color: white;
-  border-radius: 20px;
+  border-radius: 25px;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.hero-btn:hover {
+  background: #e14a2e;
 }

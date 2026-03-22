@@ -8,33 +8,37 @@
 
 /* 🔥 GRID */
 .recipe-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 /* 🔥 CARD */
 .recipe-card {
-  background: white;
+  width: 250px;
   border-radius: 15px;
   overflow: hidden;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   cursor: pointer;
   transition: 0.3s;
 }
 
 .recipe-card:hover {
-  transform: translateY(-5px);
+  transform: scale(1.05);
 }
 
 /* IMAGE */
 .recipe-card img {
   width: 100%;
-  height: 150px;
-  object-fit: cover;
+  height: 160px;        /* 🔥 fixed height */
+  object-fit: cover;    /* 🔥 keeps image proper */
+  border-radius: 15px 15px 0 0;
 }
 
 /* TITLE */
 .recipe-card h3 {
   padding: 10px;
   text-align: center;
+  font-size: 18px;
 }

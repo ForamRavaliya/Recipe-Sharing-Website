@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Navbar.css";
 import { FaSearch, FaShoppingCart, FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
+
+  const handleSearch = () => {
+    navigate(`/recipes?search=${search}`);
+  };
 
   return (
     <nav className="navbar">
@@ -22,24 +27,33 @@ export default function Navbar() {
         <li onClick={() => navigate("/contact")}>contact</li>
       </ul>
 
-      {/* Icons */}
-      <div className="nav-icons">
+      {/* RIGHT SIDE */}
+      <div className="nav-right">
 
-        <FaSearch
-          className="icon"
-          onClick={() => navigate("/recipes")}
-        />
+        {/* 🔍 Search */}
+        <div className="nav-search">
+          <input
+            type="text"
+            placeholder="Search recipes..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <FaSearch className="icon" onClick={handleSearch} />
+        </div>
 
+        {/* ➕ Add */}
         <FaPlus
           className="icon"
           onClick={() => navigate("/add")}
         />
 
+        {/* 🛒 Favorites */}
         <FaShoppingCart
           className="icon"
           onClick={() => navigate("/favorites")}
         />
 
+        {/* 🔐 Login */}
         <button
           className="signin-btn"
           onClick={() => navigate("/login")}
