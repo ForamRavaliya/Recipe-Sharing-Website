@@ -18,7 +18,7 @@ export default function RecipeDetail() {
   const [favorite, setFavorite] = useState(false);
 
   // ⭐ Review states
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState("");
   const [comment, setComment] = useState("");
   const [reviews, setReviews] = useState([]);
 
@@ -30,53 +30,94 @@ export default function RecipeDetail() {
       .catch((err) => console.log(err));
   }, [id]);
 
-  // 🔥 Fetch reviews
+  // 🔥 Fetch reviews (FIXED URL)
   useEffect(() => {
-    fetch(`http://localhost:5000/recipes/${id}/reviews`)
+    fetch(`http://localhost:5000/reviews/${id}`)
       .then((res) => res.json())
       .then((data) => setReviews(data))
       .catch((err) => console.log(err));
   }, [id]);
+useEffect(() => {
+  fetch(`http://localhost:5000/favorites/1`)
+    .then(res => res.json())
+    .then(data => {
+      const isFav = data.some(item => item.id == id);
+      setFavorite(isFav);
+    })
+    .catch(err => console.log(err));
+}, [id]);
 
-  // ❤️ Favorite
+  // ❤️ Add Favorite
   const addFavorite = async () => {
-    await fetch("http://localhost:5000/favorites", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user_id: 1, recipe_id: id }),
-    });
+    try {
+      await fetch("http://localhost:5000/favorites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: 1,
+          recipe_id: id,
+        }),
+      });
 
-    setFavorite(!favorite);
+      setFavorite(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  // ⭐ Submit review
-  const submitReview = () => {
-    fetch(`http://localhost:5000/recipes/${id}/review`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ rating, comment }),
-    })
-      .then(() => {
-        alert("Review added!");
-        window.location.reload();
-      })
-      .catch((err) => console.log(err));
+  // ⭐ Submit Review (FIXED)
+  const submitReview = async () => {
+    try {
+      await fetch("http://localhost:5000/reviews", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: 1,
+          recipe_id: id,
+          rating: Number(rating),
+          comment,
+        }),
+      });
+
+      alert("Review added!");
+
+      // refresh reviews without reload
+      const res = await fetch(`http://localhost:5000/reviews/${id}`);
+      const data = await res.json();
+      setReviews(data);
+
+      setRating("");
+      setComment("");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   if (!recipe) return <h2>Loading...</h2>;
 
+  // ⭐ Calculate average rating
+  const avgRating =
+    reviews.length > 0
+      ? (
+          reviews.reduce((sum, r) => sum + r.rating, 0) /
+          reviews.length
+        ).toFixed(1)
+      : "No rating";
+
   return (
     <div className="detail-container">
+
       {/* 🔙 Back */}
       <button className="back-btn" onClick={() => navigate("/")}>
         ← Back
       </button>
 
       <div className="detail-card">
+
         {/* Image */}
         <div className="image-section">
           <img
@@ -97,24 +138,16 @@ export default function RecipeDetail() {
           {/* ⭐ Rating */}
           <div className="rating">
             <FaStar color="#FFD700" />
-            <span>
-              {recipe.rating
-                ? Number(recipe.rating).toFixed(1)
-                : "No rating"}
-            </span>
+            <span>{avgRating}</span>
           </div>
 
           {/* ⏱ Time & 👨‍🍳 Author */}
           <div className="info">
-            <span>
-              <FaClock /> {recipe.time}
-            </span>
-            <span>
-              <FaUser /> {recipe.author || "Chef"}
-            </span>
+            <span><FaClock /> {recipe.time}</span>
+            <span><FaUser /> {recipe.author || "Chef"}</span>
           </div>
 
-          {/* 🟡 Tabs */}
+          {/* Tabs */}
           <div className="tabs">
             <button
               className={activeTab === "ingredients" ? "active" : ""}
@@ -153,11 +186,13 @@ export default function RecipeDetail() {
           min="1"
           max="5"
           placeholder="Rating (1-5)"
+          value={rating}
           onChange={(e) => setRating(e.target.value)}
         />
 
         <textarea
           placeholder="Write your review..."
+          value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
 
@@ -171,14 +206,15 @@ export default function RecipeDetail() {
         {reviews.length === 0 ? (
           <p>No reviews yet</p>
         ) : (
-          reviews.map((r, i) => (
-            <div key={i} className="review-item">
+          reviews.map((r) => (
+            <div key={r.id} className="review-item">
               ⭐ {r.rating}
               <p>{r.comment}</p>
             </div>
           ))
         )}
       </div>
+
     </div>
   );
 }

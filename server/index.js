@@ -5,12 +5,13 @@ const pool = require("./db");
 const app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 app.use("/auth", require("./routes/auth"));
 app.use("/recipes", require("./routes/recipes"));
 app.use("/favorites", require("./routes/favorites"));
 app.use("/upload", require("./routes/upload"));
 app.use("/uploads", express.static("uploads"));
+app.use("/reviews", require("./routes/reviews"));
 
 app.get("/", (req, res) => {
   res.send("API Running...");

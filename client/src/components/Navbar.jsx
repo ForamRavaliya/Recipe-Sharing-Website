@@ -7,10 +7,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
-  const handleSearch = () => {
-    navigate(`/recipes?search=${search}`);
-  };
-
   return (
     <nav className="navbar">
 
@@ -37,8 +33,17 @@ export default function Navbar() {
             placeholder="Search recipes..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                navigate(`/recipes?search=${search}`);
+              }
+            }}
           />
-          <FaSearch className="icon" onClick={handleSearch} />
+
+          <FaSearch
+            className="icon"
+            onClick={() => navigate(`/recipes?search=${search}`)}
+          />
         </div>
 
         {/* ➕ Add */}
@@ -62,7 +67,6 @@ export default function Navbar() {
         </button>
 
       </div>
-
     </nav>
   );
 }
