@@ -20,11 +20,12 @@ router.get("/:id", async (req, res) => {
 
 // ADD recipe
 router.post("/", async (req, res) => {
-  const { name, image, ingredients, steps, time } = req.body;
+  const { name, image, ingredients, steps, time, category } = req.body;
 
   const newRecipe = await pool.query(
-    "INSERT INTO recipes (name, image, ingredients, steps, time) VALUES ($1,$2,$3,$4,$5) RETURNING *",
-    [name, image, ingredients, steps, time]
+    `INSERT INTO recipes (name, image, ingredients, steps, time, category)
+     VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`,
+    [name, image, ingredients, steps, time, category]
   );
 
   res.json(newRecipe.rows[0]);
