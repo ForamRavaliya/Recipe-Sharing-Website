@@ -9,7 +9,7 @@ import Favorites from "./components/Favorites";
 import Contact from "./components/Contact";
 import Category from "./components/Category";
 
-// ✅ Home page combining Hero + Category
+// Home page
 function Home() {
   return (
     <>
@@ -25,13 +25,19 @@ function App() {
       <Navbar />
 
       <Routes>
-        {/* ✅ ONLY ONE "/" ROUTE */}
+        {/* ✅ HOME */}
         <Route path="/" element={<Home />} />
 
+        {/* ✅ RECIPES PAGE */}
         <Route path="/recipes" element={<RecipeList />} />
+
+        {/* ✅ SINGLE RECIPE */}
         <Route path="/recipe/:id" element={<RecipeDetail />} />
 
+        {/* ✅ ADD RECIPE */}
         <Route path="/add" element={<AddRecipe />} />
+
+        {/* OTHER */}
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />

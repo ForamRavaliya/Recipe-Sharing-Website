@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import "./AddRecipe.css";
+import { useNavigate } from "react-router-dom";
 
 export default function AddRecipe() {
+  const navigate = useNavigate(); // ✅ inside component
+
   const [name, setName] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [steps, setSteps] = useState("");
   const [time, setTime] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [category, setCategory] = useState("");
+
+  // ✅ FIX: define BEFORE use
+  const cleanCategory = (cat) =>
+    cat.toLowerCase().replace(/\s+/g, "-");
 
   const uploadImage = async () => {
     const formData = new FormData();
@@ -39,11 +47,14 @@ export default function AddRecipe() {
         ingredients,
         steps,
         time,
-        image: imageName
+        image: imageName,
+        category: cleanCategory(category) // ✅ fixed
       })
     });
 
     alert("Recipe Added Successfully!");
+
+    navigate("/recipes"); // ✅ correct place
   };
 
   return (
@@ -52,7 +63,6 @@ export default function AddRecipe() {
 
         <h2>Add New Recipe 🍽</h2>
 
-        {/* Image Upload */}
         <div className="image-upload">
           <label>Upload Image</label>
 
@@ -67,7 +77,6 @@ export default function AddRecipe() {
           {preview && <img src={preview} alt="preview" />}
         </div>
 
-        {/* Inputs */}
         <input
           placeholder="Recipe Name"
           value={name}
@@ -75,22 +84,30 @@ export default function AddRecipe() {
         />
 
         <textarea
-          placeholder="Ingredients (comma separated)"
+          placeholder="Ingredients"
           value={ingredients}
           onChange={(e) => setIngredients(e.target.value)}
         />
 
         <textarea
-          placeholder="Cooking Steps"
+          placeholder="Steps"
           value={steps}
           onChange={(e) => setSteps(e.target.value)}
         />
 
         <input
-          placeholder="Cooking Time (e.g. 30 mins)"
+          placeholder="Time"
           value={time}
           onChange={(e) => setTime(e.target.value)}
         />
+
+        <select onChange={(e) => setCategory(e.target.value)}>
+          <option value="">Select Category</option>
+          <option value="kathiyawadi">Kathiyawadi</option>
+          <option value="south-indian">South Indian</option>
+          <option value="fast-food">Fast Food</option>
+          <option value="punjabi">Punjabi</option>
+        </select>
 
         <button onClick={handleSubmit}>
           Submit Recipe 🚀

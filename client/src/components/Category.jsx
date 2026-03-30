@@ -1,16 +1,32 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import "./Category.css";
-
-const categories = [
-  { name: "Kathiyawadi", image: "/images/kathiyawadi.jpg" },
-  { name: "South Indian", image: "/images/south.jpg" },
-  { name: "Fast Food", image: "/images/fastfood.jpg" },
-  { name: "Punjabi", image: "/images/punjabi.jpg" },
-];
+import { useNavigate } from "react-router-dom";
 
 export default function Category() {
   const navigate = useNavigate();
+
+  const categories = [
+    {
+      name: "Kathiyawadi",
+      value: "kathiyawadi",
+      image: "/images/kathiyawadi.jpeg",
+    },
+    {
+      name: "South Indian",
+      value: "south-indian",
+      image: "/images/SouthIndian.jpeg",
+    },
+    {
+      name: "Fast Food",
+      value: "fast-food",
+      image: "/images/fastFood.jpeg",
+    },
+    {
+      name: "Punjabi",
+      value: "punjabi",
+      image: "/images/punjabi.jpeg",
+    },
+  ];
 
   return (
     <div className="category-section">
@@ -22,7 +38,7 @@ export default function Category() {
             key={i}
             className="category-card"
             onClick={() =>
-              navigate(`/recipes?category=${cat.name}`)
+              navigate(`/recipes?category=${cat.value}`)
             }
           >
             <img src={cat.image} alt={cat.name} />

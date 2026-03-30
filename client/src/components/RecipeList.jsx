@@ -8,12 +8,10 @@ export default function RecipeList() {
 
   const [recipes, setRecipes] = useState([]);
 
-  // 🔍 Get query params
   const query = new URLSearchParams(location.search);
   const search = query.get("search") || "";
   const category = query.get("category") || "";
 
-  // 🔥 Fetch recipes
   useEffect(() => {
     fetch("http://localhost:5000/recipes")
       .then((res) => res.json())
@@ -24,7 +22,6 @@ export default function RecipeList() {
       .catch((err) => console.log(err));
   }, []);
 
-  // 🔥 FILTER (SEARCH + CATEGORY)
   const filteredRecipes = recipes.filter((item) => {
     const matchSearch = item.name
       .toLowerCase()
@@ -37,44 +34,44 @@ export default function RecipeList() {
     return matchSearch && matchCategory;
   });
 
+  console.log("URL category:", category);
+
   return (
     <div className="recipe-section">
       <h2>Popular Recipes</h2>
 
-      {/* 🔍 Show search */}
       {search && <p>🔍 Showing results for: "{search}"</p>}
-
-      {/* 🍽 Show category */}
       {category && <p>🍽 Category: {category}</p>}
 
       <div className="recipe-grid">
         {filteredRecipes.length === 0 ? (
           <p>No recipes found 😢</p>
         ) : (
-          filteredRecipes.map((item) => (
-            <div
-              key={item.id}
-              className="recipe-card"
-              onClick={() => navigate(`/recipe/${item.id}`)}
-            >
-              {/* Image */}
-              <img
-                src={`http://localhost:5000/uploads/${item.image}`}
-                alt={item.name}
-              />
+          filteredRecipes.map((item) => {
+            console.log("DB category:", item.category); // ✅ correct place
 
-              {/* Name */}
-              <h3>{item.name}</h3>
+            return (
+              <div
+                key={item.id}
+                className="recipe-card"
+                onClick={() => navigate(`/recipe/${item.id}`)}
+              >
+                <img
+                  src={`http://localhost:5000/uploads/${item.image}`}
+                  alt={item.name}
+                />
 
-              {/* ⭐ Rating */}
-              <p className="rating">
-                ⭐{" "}
-                {item.rating
-                  ? Number(item.rating).toFixed(1)
-                  : "No rating"}
-              </p>
-            </div>
-          ))
+                <h3>{item.name}</h3>
+
+                <p className="rating">
+                  ⭐{" "}
+                  {item.rating
+                    ? Number(item.rating).toFixed(1)
+                    : "No rating"}
+                </p>
+              </div>
+            );
+          })
         )}
       </div>
     </div>
